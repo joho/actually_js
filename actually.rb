@@ -56,8 +56,8 @@ class GithubSearch
     puts "\nPAGE #{page}"
     p actuallies
 
-    if issues[:items].count > 0 then
-      actuallies += search_issues(client, page + 1)
+    if issues[:items].count > 0 && page <= 5 then
+        actuallies += search_issues(page + 1)
     end
 
     actuallies
@@ -82,16 +82,21 @@ class Generator
       v =~ /^actually/i
     end
   end
+
+  def save!
+    @dictionary.save_dictionary!
+  end
 end
 
 markov = MarkyMarkov::Dictionary.new('dictionary')
 generator = Generator.new(markov)
 
-# client = Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
-# github_search = GithubSearch.new(client)
-# all_actuallies = github_search.search_issues(1)
-#
-# generator.fresh_actuallies(all_actuallies)
+client = Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
+github_search = GithubSearch.new(client)
+all_actuallies = github_search.search_issues(1)
+
+generator.fresh_actuallies(all_actuallies)
+generator.save!
 
 twitter = Twitter::REST::Client.new do |config|
   config.consumer_key        = ENV['TWITTER_KEY']
