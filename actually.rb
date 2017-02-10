@@ -100,7 +100,14 @@ twitter = Twitter::REST::Client.new do |config|
   config.access_token_secret = ENV['TWITTER_USER_SECRET']
 end
 
-well_actually = generator.mansplain.shuffle[0]
+while true do
+  well_actually = generator.mansplain.shuffle[0]
 
-p twitter.update(well_actually)
+  print "Tweet '#{well_actually}'\n (y/n)?"
+
+  😭 = gets
+  if 😭.downcase.strip == "y" then
+    twitter.update(well_actually)
+  end
+end
 
