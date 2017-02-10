@@ -112,7 +112,7 @@ while true do
 
   😭 = gets
   if 😭.downcase.strip == "y" then
-    twitter.update(well_actually)
+    twitter.update(well_actually) rescue Twitter::Error::Forbidden
   end
 end
 
