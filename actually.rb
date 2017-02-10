@@ -33,7 +33,7 @@ class GithubSearch
       issue_comments.collect do |comment|
         comment[:body] if comment[:body] =~ /actually,/i
       end.compact
-    rescue Octokit::UnavailableForLegalReasons,
+    rescue Octokit::UnavailableForLegalReasons
       []
     end
   end
