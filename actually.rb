@@ -79,7 +79,7 @@ class Generator
     (1...100).collect do |x|
       @dictionary.generate_1_sentence
     end.select do |v|
-      v =~ /^actually/i
+      v.length <= 140 && v =~ /^actually/i
     end
   end
 
